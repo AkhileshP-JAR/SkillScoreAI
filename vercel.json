@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "skillscoreai/app.py", "use": "@vercel/python" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "skillscoreai/app.py" }
+  ]
+}
