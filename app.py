@@ -372,8 +372,8 @@ def predict_mindset(form):
         return None
 
 
-# if __name__ == '__main__':
-#     app.run()
-def handler(environ, start_response):
-    return app(environ, start_response)
+if __name__ == '__main__':
+    app.run(debug=True)
+# def handler(environ, start_response):
+#     return app(environ, start_response)
 
