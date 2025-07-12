@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Data Collection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+          body {
+              font-family: 'Poppins', sans-serif;
+              background: linear-gradient(135deg, #45b394 0%, #3a7bd5 100%);
+              min-height: 100vh;
+              margin: 0;
+              padding: 0;
+          }
+  
+          .mynav {
+              background: transparent !important;
+              color: white;
+              font-weight: bold;
+              padding: 10px;
+              width: 100%;
+          }
+  
+          .mynav h1 {
+              color: #ffffff;
+              text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+              font-weight: 700;
+          }
+  
+          .container {
+              margin: 50px auto;
+              border-radius: 15px;
+              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+              padding: 30px;
+              background-color: rgba(255, 255, 255, 0.95);
+              animation: fadeIn 1s ease-out;
+          }
+  
+          @keyframes fadeIn {
+              from { opacity: 0; transform: translateY(20px); }
+              to { opacity: 1; transform: translateY(0); }
+          }
+  
+          h2 {
+              color: #1a3e72;
+              font-weight: 600;
+              margin-bottom: 1.5rem;
+          }
+  
+          .form-group label {
+              font-weight: 600;
+              color: #2c3e50;
+          }
+  
+          .form-control {
+              border-radius: 8px;
+              padding: 12px 15px;
+              border: 1px solid #ddd;
+              transition: all 0.3s;
+          }
+  
+          .form-control:focus {
+              border-color: #4361ee;
+              box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+          }
+  
+          .btn-submit {
+              background: linear-gradient(135deg, #0c0d16 0%, #2ed25f 100%);
+              border: none;
+              border-radius: 50px;
+              padding: 12px 30px;
+              font-weight: 600;
+              color: white;
+              transition: all 0.3s;
+              box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+          }
+  
+          .btn-submit:hover {
+              transform: translateY(-3px);
+              box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+          }
+  
+          .btn-submit:active {
+              transform: translateY(1px);
+          }
+  
+          @media (max-width: 298px) {
+              .container {
+                  padding: 20px;
+                  margin: 20px;
+              }
+          }
+      </style>
+</head>
+<body>
+    <div class="bg-image" id="bgImage">
+    <div class="mynav shadow-sm" style="background: transparent; color: white; font-weight: bold; padding: 10px; width: 100%;">      
+        <h1 class="text-center" style="color:rgb(25, 60, 89);">Student Data Collection</h1>
+    </div>
+    <div class="container">
+        <h2 class="text-center" style="color:rgb(25, 60, 89);">Fill in the details to submit student data</h2>
+        <form method="post" action="/submit">
+            <!-- Personal Details -->
+            <div class="row">
+                <!-- <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="s_no">S.No:</label>
+                        <input type="number" class="form-control" id="s_no" name="s_no" required>
+                    </div>
+                </div> -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="college_full_name">College Full Name:</label>
+                        <input type="text" class="form-control" id="college_full_name" name="college_full_name" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="college_city">College City:</label>
+                        <input type="text" class="form-control" id="college_city" name="college_city" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="roll_no">Roll No / PRN:</label>
+                        <input type="text" class="form-control" id="roll_no" name="roll_no" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="prefix">Prefix:</label>
+                        <input type="text" class="form-control" id="prefix" name="prefix" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="candidate_name">Candidate Name:</label>
+                        <input type="text" class="form-control" id="candidate_name" name="candidate_name" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="gender">Gender:</label>
+                        <select class="form-control" id="gender" name="gender" required>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="candidate_mobile_number">Candidate Mobile Number:</label>
+                        <input type="text" class="form-control" id="candidate_mobile_number" name="candidate_mobile_number" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="alternate_mobile_number">Alternate Mobile Number:</label>
+                        <input type="text" class="form-control" id="alternate_mobile_number" name="alternate_mobile_number">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="primary_email">Primary Email ID (College):</label>
+                        <input type="email" class="form-control" id="primary_email" name="primary_email" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="alternate_email">Alternate Email ID:</label>
+                        <input type="email" class="form-control" id="alternate_email" name="alternate_email">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="tenth_board_percentage">10th Board Percentage:</label>
+                        <input type="number" step="0.01" class="form-control" id="tenth_board_percentage" name="tenth_board_percentage" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="twelfth_board_percentage">12th Board Percentage:</label>
+                        <input type="number" step="0.01" class="form-control" id="twelfth_board_percentage" name="twelfth_board_percentage" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="graduation_degree">Graduation Degree:</label>
+                        <input type="text" class="form-control" id="graduation_degree" name="graduation_degree" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="grad_specialization">Graduation Specialization:</label>
+                        <input type="text" class="form-control" id="grad_specialization" name="grad_specialization" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="graduation_cgpa">Graduation CGPA:</label>
+                        <input type="number" step="0.01" class="form-control" id="graduation_cgpa" name="graduation_cgpa" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="year_of_graduation">Year of Graduation:</label>
+                        <input type="number" class="form-control" id="year_of_graduation" name="year_of_graduation" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="post_graduation_degree">Post Graduation Degree (if applicable):</label>
+                        <input type="text" class="form-control" id="post_graduation_degree" name="post_graduation_degree">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="post_grad_specialization">Post Graduation Specialization (if applicable):</label>
+                        <input type="text" class="form-control" id="post_grad_specialization" name="post_grad_specialization">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="post_graduation_cgpa">Post Graduation CGPA (if applicable):</label>
+                        <input type="number" step="0.01" class="form-control" id="post_graduation_cgpa" name="post_graduation_cgpa">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="year_of_post_grad">Year of Post Graduation (if applicable):</label>
+                        <input type="number" class="form-control" id="year_of_post_grad" name="year_of_post_grad">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="foreign_language">Foreign Language (Except English):</label>
+                        <input type="text" class="form-control" id="foreign_language" name="foreign_language">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="foreign_language_proficiency">Proficiency in Foreign Language:</label>
+                        <select class="form-control" id="foreign_language_proficiency" name="foreign_language_proficiency">
+                            <option value="beginner">Beginner</option>
+                            <option value="advanced">Advanced</option>
+                            <option value="mastery">Mastery</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="permanent_address">Permanent Home Address:</label>
+                        <input type="text" class="form-control" id="permanent_address" name="permanent_address" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="permanent_city">Permanent City:</label>
+                        <input type="text" class="form-control" id="permanent_city" name="permanent_city" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="permanent_state">Permanent State:</label>
+                        <input type="text" class="form-control" id="permanent_state" name="permanent_state" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="permanent_pin_code">Permanent Pin Code:</label>
+                        <input type="text" class="form-control" id="permanent_pin_code" name="permanent_pin_code" required>
+                    </div>
+                </div>
+                <!-- <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="technologies_skills">Technologies/Skills Known:</label>
+                        <input type="text" class="form-control" id="technologies_skills" name="technologies_skills" required>
+                    </div>
+                </div> -->
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="organization_worked_with">Organization Worked With (If Any):</label>
+                        <input type="text" class="form-control" id="organization_worked_with" name="organization_worked_with">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="prior_experience">Prior Experience (Brief Summary):</label>
+                        <input type="text" class="form-control" id="prior_experience" name="prior_experience">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="total_experience">Total Experience (In Years):</label>
+                        <input type="number" step="0.1" class="form-control" id="total_experience" name="total_experience" >
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="legal_pursuit">Legal Pursuit:</label>
+                        <input type="text" class="form-control" id="legal_pursuit" name="legal_pursuit">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="technologies_skills">Technologies/Skills Known (comma separated):</label>
+                        <input type="text" class="form-control" id="technologies_skills" name="technologies_skills" required placeholder="e.g., Python, Java, SQL">
+                        <small class="form-text text-muted">Each technology/skill adds 5 points</small>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="sports">Sports (comma separated):</label>
+                        <input type="text" class="form-control" id="sports" name="sports" placeholder="e.g., football, basketball">
+                        <small class="form-text text-muted">Each sport adds 7 points</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="extra_curriculum">Extra Curriculum (comma separated):</label>
+                        <input type="text" class="form-control" id="extra_curriculum" name="extra_curriculum" placeholder="e.g., art and craft, canva, stitching">
+                        <small class="form-text text-muted">Each activity adds 8 points</small>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Data</button>
+        </form>
+        <hr>
+
+        <h3 class="mt-4" style="color:rgb(25, 60, 89);">Predict Student Mindset</h3>
+        <form method="POST" action="/predict">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Graduation CGPA:</label>
+                    <input type="number" step="0.01" class="form-control" name="graduation_cgpa" required>
+                </div>
+                <div class="col-md-4">
+                    <label>Year of Graduation:</label>
+                    <input type="number" class="form-control" name="year_of_graduation" required>
+                </div>
+                <div class="col-md-4">
+                    <label>Total Experience (Years):</label>
+                    <input type="number" step="0.1" class="form-control" name="total_experience" required>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label>Technologies/Skills Known:</label>
+                    <input type="text" class="form-control" name="technologies_skills" required>
+                </div>
+                <div class="col-md-6">
+                    <label>Foreign Language Proficiency:</label>
+                    <select class="form-control" name="foreign_language_proficiency">
+                        <option value="Beginner">Beginner</option>
+                        <option value="Advanced">Advanced</option>
+                        <option value="Mastery">Mastery</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success mt-3">Predict Mindset</button>
+        </form>
+        
+    </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Search Results</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+            --info-color: #7209b7;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #021879 0%, #8646c1 100%);
+            color: var(--dark-color);
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        .container {
+            margin-top: 30px;
+            margin-bottom: 50px;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.98);
+            animation: fadeIn 0.6s ease-out;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+            box-shadow: 0 2px 4px rgba(67, 97, 238, 0.3);
+        }
+
+        .search-terms {
+            background: linear-gradient(135deg, rgba(240, 244, 255, 0.9) 0%, rgba(224, 232, 255, 0.9) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            border-left: 5px solid var(--primary-color);
+            backdrop-filter: blur(3px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .term-badge {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 0.9rem;
+            display: inline-block;
+            box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .term-badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(67, 97, 238, 0.4);
+        }
+
+        .student-card {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            overflow: hidden;
+            background: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .student-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(67, 97, 238, 0.2);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            font-weight: 600;
+            padding: 18px 25px;
+            border-bottom: none;
+            position: relative;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .card-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
+        }
+
+        .match-indicator {
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 12px;
+            margin-right: 8px;
+            display: inline-block;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-weight: 500;
+        }
+
+        .skills-match {
+            background: linear-gradient(135deg, var(--success-color) 0%, #3a86ff 100%);
+            color: white;
+        }
+
+        .sports-match {
+            background: linear-gradient(135deg, var(--warning-color) 0%, #b5179e 100%);
+            color: white;
+        }
+
+        .ec-match {
+            background: linear-gradient(135deg, var(--info-color) 0%, #560bad 100%);
+            color: white;
+        }
+
+        .attribute-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-right: 8px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 50px;
+            color: #6c757d;
+            background-color: rgba(248, 249, 250, 0.8);
+            border-radius: 12px;
+            border: 1px dashed rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-action {
+            border-radius: 30px;
+            padding: 10px 25px;
+            font-weight: 600;
+            margin: 0 8px;
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn-search-again {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            color: white;
+        }
+
+        .btn-search-again:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(67, 97, 238, 0.4);
+            color: white;
+        }
+
+        .btn-outline-secondary {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background: transparent;
+        }
+
+        .btn-outline-secondary:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .extracurriculars-container, .skills-container {
+            max-height: 150px;
+            overflow-y: auto;
+            padding: 12px;
+            background-color: rgba(248, 249, 250, 0.8);
+            border-radius: 8px;
+            margin-top: 8px;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .points-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(245, 247, 255, 0.9) 0%, rgba(224, 232, 255, 0.9) 100%);
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(67, 97, 238, 0.1);
+            border: 1px solid rgba(67, 97, 238, 0.1);
+        }
+
+        .points-item {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .points-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 40px;
+            width: 1px;
+            background-color: rgba(67, 97, 238, 0.2);
+        }
+
+        .points-value {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .points-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .total-points {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            margin-top: 10px;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* Sorting Options */
+        .sort-options {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(67, 97, 238, 0.15);
+            backdrop-filter: blur(3px);
+        }
+
+        .sort-options h5 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .sort-btn {
+            margin-right: 10px;
+            margin-bottom: 10px;
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background: transparent;
+            font-weight: 500;
+        }
+
+        .sort-btn:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .sort-btn.active {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+
+        /* Floating action button */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
+            transition: all 0.3s;
+            z-index: 100;
+            border: none;
+            font-size: 1.5rem;
+        }
+
+        .fab:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.5);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 20px auto;
+                margin-top: 15px;
+            }
+            
+            .student-card {
+                margin-bottom: 20px;
+            }
+            
+            .points-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .points-item:not(:last-child)::after {
+                display: none;
+            }
+            
+            .btn-action {
+                width: 100%;
+                margin: 8px 0;
+            }
+            
+            .fab {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Search Results</h1>
+        
+        {% if search_terms %}
+        <div class="search-terms">
+            <h5>Search Terms:</h5>
+            {% for term in search_terms %}
+                <span class="term-badge">{{ term }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Sorting Options -->
+        <div class="sort-options">
+            <h5>Sort By:</h5>
+            <button class="btn sort-btn" onclick="sortStudents('name-asc')">Name (A-Z)</button>
+            <button class="btn sort-btn" onclick="sortStudents('name-desc')">Name (Z-A)</button>
+            <button class="btn sort-btn" onclick="sortStudents('cgpa-desc')">CGPA (High-Low)</button>
+            <button class="btn sort-btn" onclick="sortStudents('total-desc')">Total Points (High-Low)</button>
+        </div>
+
+        {% if students %}
+        <div class="row" id="students-container">
+            {% for student in students %}
+            <div class="col-md-6 student-card-container" 
+                 data-name="{{ student.Name|lower }}"
+                 data-cgpa="{{ student.CGPA }}"
+                 data-total="{{ student.Tech_points + student.Sports_Points + student.ExxCur_Points }}">
+                <div class="card student-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>{{ student.Name }}</div>
+                        <div>CGPA: {{ student.CGPA }}</div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            <span class="attribute-title">Email:</span> {{ student.Email }}<br>
+                            
+                            <span class="attribute-title">Skills:</span>
+                            <div class="skills-container">
+                                {{ student.Skills }}
+                            </div>
+                            
+                            <span class="attribute-title">Sports:</span> 
+                            {% if student.Sports != 'no' %}{{ student.Sports }}{% else %}None{% endif %}<br>
+                            
+                            <span class="attribute-title">Extracurriculars:</span>
+                            {% if student.Extracurriculars != 'no' %}
+                            <div class="extracurriculars-container">
+                                {{ student.Extracurriculars }}
+                            </div>
+                            {% else %}
+                            None
+                            {% endif %}
+                        </p>
+
+                        <!-- Points Display -->
+                        <div class="points-container">
+                            <div class="points-item">
+                                <div class="points-value">{{ student.Tech_points }}</div>
+                                <div class="points-label">Tech Points</div>
+                            </div>
+                            <div class="points-item">
+                                <div class="points-value">{{ student.Sports_Points }}</div>
+                                <div class="points-label">Sports Points</div>
+                            </div>
+                            <div class="points-item">
+                                <div class="points-value">{{ student.ExxCur_Points }}</div>
+                                <div class="points-label">Extracurricular Points</div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-2">
+                            <span class="total-points">
+                                Total Points: {{ student.Tech_points + student.Sports_Points + student.ExxCur_Points }} / 200
+                            </span>
+                        </div>
+                        
+                        <!-- tips for boosting skills -->
+                        {% if student.BoosterTips %}
+                        <div class="mt-4 p-3 rounded" style="background-color: #f0f4ff; border-left: 5px solid var(--accent-color); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);">
+                            <h6 style="color: var(--primary-color); font-weight: 600;">SkillSkore Booster Tips 🚀</h6>
+                            <ul style="padding-left: 20px; margin-top: 10px;">
+                                {% for tip in student.BoosterTips %}
+                                <li style="color: #333; font-size: 0.95rem;">{{ tip }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                        <div class="matches-container mt-3">
+                            <h6>Matches Found In:</h6>
+                            {% for term, matches in student.Matches.items() %}
+                                <div class="mb-2">
+                                    <strong>"{{ term }}"</strong> found in:
+                                    {% if matches.Skills %}<span class="match-indicator skills-match">Skills</span>{% endif %}
+                                    {% if matches.Sports %}<span class="match-indicator sports-match">Sports</span>{% endif %}
+                                    {% if matches.Extracurriculars %}<span class="match-indicator ec-match">Extracurriculars</span>{% endif %}
+                                    {% if not matches.Skills and not matches.Sports and not matches.Extracurriculars %}
+                                        <span class="text-muted">No specific category</span>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-results">
+            <h4>No students found matching all search terms</h4>
+            <p class="mt-3">Try broadening your search criteria</p>
+        </div>
+        {% endif %}
+
+        <div class="text-center mt-4">
+            <a href="/skill_recommend" class="btn btn-action btn-search-again">Search Again</a>
+            <a href="/" class="btn btn-action btn-outline-secondary">Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Sorting functionality
+        function sortStudents(sortType) {
+            const container = document.getElementById('students-container');
+            const cards = Array.from(container.getElementsByClassName('student-card-container'));
+            
+            // Update active button state
+            document.querySelectorAll('.sort-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Sort the cards
+            cards.sort((a, b) => {
+                switch(sortType) {
+                    case 'name-asc':
+                        return a.dataset.name.localeCompare(b.dataset.name);
+                    case 'name-desc':
+                        return b.dataset.name.localeCompare(a.dataset.name);
+                    case 'cgpa-desc':
+                        return parseFloat(b.dataset.cgpa) - parseFloat(a.dataset.cgpa);
+                    case 'total-desc':
+                        return parseFloat(b.dataset.total) - parseFloat(a.dataset.total);
+                    default:
+                        return 0;
+                }
+            });
+            
+            // Re-append sorted cards with animation
+            container.style.opacity = '0.5';
+            setTimeout(() => {
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        container.appendChild(card);
+                    }, index * 50);
+                });
+                container.style.opacity = '1';
+            }, 300);
+        }
+        
+        // Initialize with default sort (name ascending)
+        document.addEventListener('DOMContentLoaded', function() {
+            const defaultSortBtn = document.querySelector('.sort-btn[onclick*="name-asc"]');
+            if (defaultSortBtn) {
+                defaultSortBtn.classList.add('active');
+                sortStudents('name-asc');
+            }
+        });
+    </script>
+    <button class="fab">
+        <i class="fas fa-search"></i>
+      </button>
+</body>
+</html>
