@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Database</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f7f9fc;
+      padding: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+      font-size: 14px;
+    }
+    th {
+      background-color: #4e54c8;
+      color: white;
+    }
+    h2 {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h2>All Students</h2>
+  <table>
+    <tr>
+      <th>S.No</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>CGPA</th>
+      <th>Skills</th>
+      <th>Experience</th>
+    </tr>
+    {% for s in students %}
+    <tr>
+      <td>{{ s.s_no }}</td>
+      <td>{{ s.name }}</td>
+      <td>{{ s.primary_email }}</td>
+      <td>{{ s.graduation_cgpa }}</td>
+      <td>{{ s.skills }}</td>
+      <td>{{ s.total_experience }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>

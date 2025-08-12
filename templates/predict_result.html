@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Prediction Result{% endblock %}
+
+{% block content %}
+<div class="container-box text-center">
+  <h2 class="text-primary">🎓 Student Mindset Prediction</h2>
+
+  {% if mindset %}
+    <p class="mt-4" style="font-size: 1.2em;"><strong>Predicted Mindset:</strong>
+      {% if mindset == 'job' %}💼 {{ mindset }}
+      {% else %}📚 {{ mindset }}{% endif %}
+    </p>
+
+    {% if mindset == 'job' %}
+      <p class="text-muted">Career Path: <em>Not enough data to predict yet.</em></p>
+    {% endif %}
+  {% else %}
+    <p class="text-danger">Error occurred during prediction.</p>
+  {% endif %}
+
+  <a href="/" class="btn btn-outline-primary mt-4">⬅ Back to Home</a>
+</div>
+{% endblock %}
